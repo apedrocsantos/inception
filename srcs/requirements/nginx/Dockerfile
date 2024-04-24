@@ -5,14 +5,11 @@ RUN apk update && \
     apk upgrade --available && \
     apk add openrc
 
-RUN apk add nginx && apk add openssl
-
-RUN mkdir -p /etc/nginx/ssl
-
-RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=PT/ST=LIS/L=Lisboa/O=42/OU=42/CN=login.42.fr/UID=login"
+RUN apk add nginx
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
+# RUN nginx -s reload
 # start server
 # RUN rc-service nginx start
 
@@ -22,4 +19,6 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 #start automatically on system boot
 RUN rc-update add nginx default
 
-CMD [ "nginx", "-g", "daemon off;" ]
+# EXPOSE 8080
+
+# CMD [ "nginx", "-g", "daemon off;" ]
