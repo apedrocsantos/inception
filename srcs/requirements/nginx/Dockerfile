@@ -7,6 +7,10 @@ RUN apk update && \
 
 RUN apk add nginx
 
+RUN mkdir mysite
+
+COPY mysite/* mysite
+
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 # RUN nginx -s reload
@@ -19,6 +23,6 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 #start automatically on system boot
 RUN rc-update add nginx default
 
-# EXPOSE 8080
+EXPOSE 443
 
-# CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "nginx", "-g", "daemon off;" ]
