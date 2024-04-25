@@ -5,7 +5,7 @@ RUN apk update && \
     apk upgrade --available && \
     apk add openrc
 
-RUN apk add nginx
+RUN apk add nginx && apk add openssl
 
 RUN mkdir mysite
 
@@ -13,14 +13,14 @@ COPY mysite/* mysite
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-# RUN nginx -s reload
-# start server
-# RUN rc-service nginx start
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=PT/ST=Lx/L=Lx/O=42/OU=42/CN=anda-cun.42.fr/UID=anda-cun"
 
-# reload server
-# RUN rc-service nginx reload
+# RUN openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
-#start automatically on system boot
+COPY conf/self_signed.conf /etc/nginx/snippets/self-signed.conf
+
+COPY conf/ssl_params.conf /etc/nginx/snippets/ssl_params.conf
+
 RUN rc-update add nginx default
 
 EXPOSE 443
