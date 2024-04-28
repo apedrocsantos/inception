@@ -21,6 +21,10 @@ COPY conf/self_signed.conf /etc/nginx/snippets/self-signed.conf
 
 COPY conf/ssl_params.conf /etc/nginx/snippets/ssl_params.conf
 
+RUN openrc
+
+RUN touch /run/openrc/softlevel
+
 RUN rc-update add nginx default
 
 EXPOSE 443

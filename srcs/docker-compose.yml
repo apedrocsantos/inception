@@ -1,0 +1,29 @@
+version: "25"
+services:
+  # nginx:
+  #   container_name: nginx
+  #   build: requirements/nginx
+  #   image: nginx
+  #   ports:
+  #     - "443:443"
+  #   restart: always
+  # mariadb:
+  #   container_name: mariadb
+  #   build: requirements/mariadb
+  #   image: mariadb
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - /home/login/data/mariadb:/var/lib/mysql
+  #   restart: always
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    image: wordpress
+    # depends_on:
+    #   - mariadb
+    ports:
+      - "9000:9000"
+    # volumes:
+    #   - /home/login/data/wordpress:/var/lib/mysql
+    restart: always
