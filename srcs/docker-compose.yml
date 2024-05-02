@@ -1,21 +1,32 @@
-version: "25"
+version: "3.1"
 services:
-  # nginx:
-  #   container_name: nginx
-  #   build: requirements/nginx
-  #   image: nginx
-  #   ports:
-  #     - "443:443"
-  #   restart: always
-  # mariadb:
-  #   container_name: mariadb
-  #   build: requirements/mariadb
-  #   image: mariadb
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - /home/login/data/mariadb:/var/lib/mysql
-  #   restart: always
+
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    image: nginx
+    ports:
+      - "443:443"
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/anda-cun/data/mariadb:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+
+    # secrets:
+    #    - db_password
+
   wordpress:
     container_name: wordpress
     build: requirements/wordpress
@@ -25,5 +36,13 @@ services:
     ports:
       - "9000:9000"
     # volumes:
-    #   - /home/login/data/wordpress:/var/lib/mysql
+    #   - /home/anda-cun/data/wordpress:/var/lib/wordpress
+    environment:
+       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
     restart: always
+
+secrets:
+  db_password:
+    file: db_password.txt
+  db_root_password:
+    file: db_root_password.txt
