@@ -2,47 +2,65 @@ version: "3.1"
 services:
 
   nginx:
+    depends_on:
+      - wordpress
     container_name: nginx
     build: requirements/nginx
     image: nginx
     ports:
       - "443:443"
-    restart: always
-
-  mariadb:
-    container_name: mariadb
-    build: requirements/mariadb
-    image: mariadb
-    ports:
-      - "3306:3306"
     volumes:
-      - /home/anda-cun/data/mariadb:/var/lib/mysql
+      - /home/anda-cun/data:/var/www/html
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    networks:
+      - network
 
-    # secrets:
-    #    - db_password
+  # mariadb:
+  #   container_name: mariadb
+  #   build: requirements/mariadb
+  #   image: mariadb
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - /home/anda-cun/data/mariadb:/var/lib/mysql
+  #   restart: always
+  #   env_file: .env
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+  #     MYSQL_PASSWORD_FILE: /run/secrets/db_password
+
+  #   secrets:
+  #      - db_password
 
   wordpress:
+    # depends_on:
+    #   - mariadb
     container_name: wordpress
     build: requirements/wordpress
     image: wordpress
-    # depends_on:
-    #   - mariadb
     ports:
       - "9000:9000"
-    # volumes:
-    #   - /home/anda-cun/data/wordpress:/var/lib/wordpress
+    volumes:
+      - /home/anda-cun/data:/var/www/html
+    env_file: .env
     environment:
-       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
     restart: always
+    networks:
+      - network
 
 secrets:
   db_password:
-    file: db_password.txt
+    file: ../secrets/db_password.txt
   db_root_password:
-    file: db_root_password.txt
+    file: ../secrets/db_root_password.txt
+
+volumes:
+  wordpress:
+  mariadb:
+
+networks:
+  network:
+    driver: bridge

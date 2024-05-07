@@ -7,15 +7,9 @@ RUN apk update && \
 
 RUN apk add nginx && apk add openssl
 
-RUN mkdir mysite
-
-COPY mysite/* mysite
-
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=PT/ST=Lx/L=Lx/O=42/OU=42/CN=anda-cun.42.fr/UID=anda-cun"
-
-# RUN openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
 COPY conf/self_signed.conf /etc/nginx/snippets/self-signed.conf
 

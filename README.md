@@ -13,6 +13,8 @@ docker run -d -p 8080:80 --name omeusite IMAGE - cria imagem com terminal detach
 docker port omeusite - lista as portas da imagem omeusite
 docker stop omeusite - pára a execução da imagem
 
+exec running container - `docker exec -it [container-id] /bin/sh`
+
 ## NGINX
 
 ### SSL TLS

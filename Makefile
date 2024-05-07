@@ -1,5 +1,5 @@
 all:
-	docker-compose -f srcs/docker-compose.yml up --build
+	docker-compose -f srcs/docker-compose.yml up -d --build
 
 clean:
 	docker-compose -f srcs/docker-compose.yml stop
@@ -7,7 +7,7 @@ clean:
 
 fclean: clean
 	# docker image rm mariadb
-	# docker image rm nginx
+	docker image rm nginx
 	docker image rm wordpress
 
 re: fclean all
