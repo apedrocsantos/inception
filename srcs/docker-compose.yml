@@ -10,7 +10,8 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/anda-cun/data:/var/www/html
+      - wordpress:/var/www/html
+      # - /home/anda-cun/data:/var/www/html
     restart: always
     networks:
       - network
@@ -41,7 +42,8 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - /home/anda-cun/data:/var/www/html
+      - wordpress:/var/www/html
+      # - /home/anda-cun/data:/var/www/html
     env_file: .env
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password

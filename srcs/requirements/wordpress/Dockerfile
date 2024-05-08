@@ -5,7 +5,7 @@ RUN apk update && \
     apk upgrade --available && \
     apk add openrc && apk add udev-init-scripts-openrc
 
-RUN apk add php82 php82-fpm && openrc
+RUN apk add php82 php82-fpm php82-cgi wget mysql mysql-client php82-mysqli && openrc
 
 RUN touch /run/openrc/softlevel
 
@@ -17,6 +17,6 @@ RUN chmod +x /usr/local/bin/wordpress.sh
 
 ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
 
-CMD ["/usr/sbin/php-fpm82", "-F"]
+# CMD ["/usr/sbin/php-fpm82", "-F"]
 
 # CMD ["/bin/sh"] 

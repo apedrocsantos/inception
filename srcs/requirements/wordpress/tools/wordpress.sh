@@ -1,19 +1,18 @@
 #! /bin/sh
 
-echo 'rc_provide="loopback net"' >> /etc/rc.conf
+# echo 'rc_provide="loopback net"' >> /etc/rc.conf
 
-apk add wget mysql mysql-client php82-mysqli
+# mkdir -p /var/run/
+
+# mkdir -p /run/php-fpm
 
 mkdir -p /var/www/html
 
 cd /var/www/html
 wget https://wordpress.org/latest.tar.gz
-
 tar -xzvf latest.tar.gz
-
 mv wordpress/* .
-
-rm latest.tar.gz wordpress
+rm -rf latest.tar.gz wordpress
 
 /usr/bin/mysql_install_db --user=mysql
 rc-service mariadb setup
@@ -30,4 +29,4 @@ EXIT
 
 "
 
-exec "$@"
+# /usr/sbin/php-fpm82 -F
