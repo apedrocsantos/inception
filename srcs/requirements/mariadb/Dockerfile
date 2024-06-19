@@ -1,18 +1,23 @@
-FROM alpine:3.18
+FROM debian:bullseye
 
-RUN apk update && \
-    apk add --upgrade apk-tools && \
-    apk upgrade --available && \
-    apk add openrc
+RUN apt update && apt upgrade -y
 
-RUN apk add  mysql mysql-client && openrc
+RUN apt install mariadb-server -y
 
-RUN touch /run/openrc/softlevel
+# COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d
 
-COPY tools/mariadb.sh /usr/local/bin/mariadb.sh
+# RUN mkdir /run/mysqld
 
-RUN chmod +x /usr/local/bin/mariadb.sh
+# COPY conf/init.sql .
 
-ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
+# COPY tools/mariadb.sh /usr/local/bin/
 
-CMD ["mysqld", "--user=root", "--bind-address=0.0.0.0"]
+# RUN chmod +x /usr/local/bin/mariadb.sh
+
+# ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
+
+EXPOSE 3306
+
+CMD ["mysqld_safe"]
+
+# CMD ["tail",  "-f", "/dev/null"]

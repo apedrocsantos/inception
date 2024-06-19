@@ -1,22 +1,23 @@
-FROM alpine:3.18
+FROM debian:bullseye
 
-RUN apk update && \
-    apk add --upgrade apk-tools && \
-    apk upgrade --available && \
-    apk add openrc && apk add udev-init-scripts-openrc
+RUN apt update -y && apt upgrade -y
 
-RUN apk add php82 php82-fpm php82-cgi wget mysql mysql-client php82-mysqli && openrc
+RUN apt install -y php php-fpm php-mysqli wget mariadb-client
 
-RUN touch /run/openrc/softlevel
+COPY conf/www.conf /etc/php/7.4/fpm/pool.d/.
 
-# COPY conf/wp-config.php /usr/share
+# COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
 
-COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
+# RUN chmod +x /usr/local/bin/wordpress.sh
 
-RUN chmod +x /usr/local/bin/wordpress.sh
+# ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
 
-ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
+EXPOSE 9000
 
-# CMD ["/usr/sbin/php-fpm82", "-F"]
+RUN mkdir -p /run/php
 
-# CMD ["/bin/sh"] 
+CMD [ "php-fpm7.4", "-F" ]
+
+# -F -> Force to stay in foreground and ignore daemonize option from configuration file.
+
+# CMD ["tail",  "-f", "/dev/null"]

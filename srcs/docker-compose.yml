@@ -1,6 +1,5 @@
 version: "3.1"
 services:
-
   nginx:
     depends_on:
       - wordpress
@@ -10,48 +9,48 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress:/var/www/html
-      # - /home/anda-cun/data:/var/www/html
+      - /home/anda-cun/data/wordpress:/var/www/html
     restart: always
     networks:
-      - network
-
-  # mariadb:
-  #   container_name: mariadb
-  #   build: requirements/mariadb
-  #   image: mariadb
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - /home/anda-cun/data/mariadb:/var/lib/mysql
-  #   restart: always
-  #   env_file: .env
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-  #     MYSQL_PASSWORD_FILE: /run/secrets/db_password
-
-  #   secrets:
-  #      - db_password
-
+      - inception
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/anda-cun/data/mariadb:/var/lib/mysql
+    restart: always
+    env_file:
+    - .env
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+       - db_password
+       - db_root_password
+    networks:
+      - inception
   wordpress:
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     container_name: wordpress
     build: requirements/wordpress
     image: wordpress
     ports:
       - "9000:9000"
     volumes:
-      - wordpress:/var/www/html
-      # - /home/anda-cun/data:/var/www/html
-    env_file: .env
+      - /home/anda-cun/data/wordpress:/var/www/html
+    env_file:
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
     restart: always
     networks:
-      - network
+      - inception
 
 secrets:
   db_password:
@@ -64,5 +63,5 @@ volumes:
   mariadb:
 
 networks:
-  network:
+  inception:
     driver: bridge

@@ -1,27 +1,13 @@
 #! /bin/sh
 
-if [ -z $(find /var/lib/mysql -maxdepth 0 -empty) ]
-then
-    echo "DB already exists"
-
-else
-    echo "MARIADB SETUP"
-    rc-service mariadb setup
-    rc-service mariadb start
-    mysql_secure_installation <<EOF
-
-y
-secret
-secret
-y
-y
-y
-y
-EOF
-
-    rc-service mariadb restart
-
-    rc-update add mariadb default
+if [ ! -d /var/lib/mysql/mysql ]; then
+    mysql_install_db --user=mysql --datadir=/var/lib/mysql
 fi
 
-exec "$@"
+USER_PASS=$(cat /run/secrets/db_password);
+
+exec mysqld_safe --no-defaults --user=root --datadir=/var/lib/mysql
+
+mariadb < mysql.db
+
+unset USER_PASS
