@@ -21,14 +21,14 @@ force restart docker - `sudo systemctl restart docker.socket`
 
 ### Dockerfile
 
-1.  Install debian:bullseye
+1.  Install debian:oldstable
 2.  Update and upgrade
 3.  Install nginx and openssl (to create the tls certificate)
 4.  Create key and certificate
 5.  Run nginx
 
 
-Wordpress website files will be stored in volume /home/anda-cun/data/wordpress
+Wordpress website files will be stored in volume /home/$USER/data/wordpress
 
 **location /**: In this location block, a try_files directive is used to check for files that match individual URI requests. Instead of returning a 404 Not Found status as a default, however, you’ll pass control to WordPress’s index.php file with the request arguments.
 
@@ -73,6 +73,8 @@ Two users: root and mysql
 
 mariadb -u [user] -p [password]
 
+[SQL Basic commands](https://www.w3schools.com/mysql/mysql_select.asp)
+
 CREATE DATABASE IF NOT EXISTS [db_name];
 
 <!-- Show current user -->
@@ -87,6 +89,19 @@ CREATE DATABASE [database_name];
 <!-- Show databases -->
 SHOW DATABASES;
 
+<!-- Select database -->
+USE [database];
+
+<!-- Use database -->
+USE [database];
+
+<!-- Describe table -->
+DESCRIBE [table];
+
+<!-- Show all data from a table -->
+SELECT * FROM [table];
+
 ## WORDPRESS
 
 [install](https://wiki.alpinelinux.org/wiki/WordPress)
+
