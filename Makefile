@@ -1,6 +1,7 @@
 up : all
 
 all:
+	mkdir /home/anda-cun/data/mariadb /home/anda-cun/data/wordpress
 	docker compose -f srcs/docker-compose.yml up --build --detach
 
 stop:

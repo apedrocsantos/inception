@@ -12,8 +12,6 @@ RUN chmod +x /usr/local/bin/wordpress.sh
 
 ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
 
-EXPOSE 9000
-
 RUN mkdir -p /run/php
 
 # -F -> Force to stay in foreground.

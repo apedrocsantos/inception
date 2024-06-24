@@ -23,6 +23,10 @@ docker compose stop - stop containers
 
 docker compose down - remove containers.
 
+[Volumes](https://docs.docker.com/storage/volumes/) vs [Bind mounts](https://docs.docker.com/storage/bind-mounts/)
+
+[Volumes in Docker Compose](https://docs.docker.com/compose/compose-file/07-volumes/)
+
 ## NGINX
 
 ### Dockerfile
