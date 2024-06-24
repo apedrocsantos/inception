@@ -17,6 +17,12 @@ exec running container - `docker exec -it [container-id] /bin/sh`
 
 force restart docker - `sudo systemctl restart docker.socket`
 
+docker compose up - start application(s)
+
+docker compose stop - stop containers
+
+docker compose down - remove containers.
+
 ## NGINX
 
 ### Dockerfile
