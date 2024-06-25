@@ -11,5 +11,4 @@ fi
 
 unset USER_PASS
 
-mysql_install_db
-mysqld
+mysqld_safe

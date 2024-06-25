@@ -1,13 +1,17 @@
-up : all
-
 all:
-	mkdir /home/anda-cun/data/mariadb /home/anda-cun/data/wordpress
-	docker compose -f srcs/docker-compose.yml up --build --detach
+	mkdir -p /home/anda-cun/data/mariadb /home/anda-cun/data/wordpress
+	docker compose -f srcs/docker-compose.yml up --build
+
+up:
+	docker compose -f srcs/docker-compose.yml up --detach
 
 stop:
 	docker compose -f srcs/docker-compose.yml stop
 
-restart: stop start
+down:
+	docker compose -f srcs/docker-compose.yml down
+
+restart: stop up
 
 clean:
 	docker compose -f srcs/docker-compose.yml stop
@@ -20,5 +24,7 @@ fclean: clean
 
 re: fclean all
 
+reset:
+	docker stop $(docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker network ls -q) 2>/dev/null
 
-.PHONY: all start stop restart clean fclean re
+.PHONY: all start stop down restart clean fclean re reset

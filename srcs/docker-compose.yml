@@ -9,7 +9,7 @@ services:
       - "443:443"
     volumes:
       - wp:/var/www/html
-    restart: always
+    restart: unless-stopped
     networks:
       - inception
 
@@ -21,7 +21,7 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     environment:
@@ -51,7 +51,7 @@ services:
     secrets:
        - db_password
        - wp_admin_password
-    restart: always
+    restart: unless-stopped
     networks:
       - inception
 
