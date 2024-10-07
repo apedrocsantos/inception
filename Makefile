@@ -1,5 +1,5 @@
 all:
-	mkdir -p /home/anda-cun/data/mariadb /home/anda-cun/data/wordpress
+	mkdir -p /Users/$$USER/data/mariadb /Users/$$USER/data/wordpress
 	docker compose -f srcs/docker-compose.yml up --build
 
 up:
@@ -9,7 +9,7 @@ stop:
 	docker compose -f srcs/docker-compose.yml stop
 
 down:
-	docker compose -f srcs/docker-compose.yml down
+	docker compose -f srcs/docker-compose.yml darown
 
 restart: stop up
 
@@ -19,8 +19,8 @@ clean:
 
 fclean: clean
 	docker image rm mariadb nginx wordpress
-	rm -rf /home/anda-cun/data/mariadb
-	rm -rf /home/anda-cun/data/wordpress
+	rm -rf /Users/$$USER/data/mariadb
+	rm -rf /Users/$$USER/data/wordpress
 
 re: fclean all
 

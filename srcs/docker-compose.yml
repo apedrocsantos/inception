@@ -67,12 +67,12 @@ volumes:
   wp:
     driver_opts:
       type: none
-      device: /home/anda-cun/data/wordpress
+      device: /Users/$USER/data/wordpress
       o: bind
   db:
     driver_opts:
       type: none
-      device: /home/anda-cun/data/mariadb
+      device: /Users/$USER/data/mariadb
       o: bind
 
 networks:
