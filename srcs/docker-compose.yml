@@ -3,13 +3,20 @@ services:
     depends_on:
       - wordpress
     container_name: nginx
-    build: requirements/nginx
+    build:
+      context: requirements/nginx
+      args:
+        USERNAME: ${USERNAME}
     image: nginx
     ports:
       - "443:443"
     volumes:
       - wp:/var/www/html
     restart: unless-stopped
+    environment:
+      - USERNAME=${USERNAME}
+    env_file:
+      - .env
     networks:
       - inception
 
@@ -67,12 +74,12 @@ volumes:
   wp:
     driver_opts:
       type: none
-      device: /Users/$USER/data/wordpress
+      device: /home/$USERNAME/data/wordpress
       o: bind
   db:
     driver_opts:
       type: none
-      device: /Users/$USER/data/mariadb
+      device: /home/$USERNAME/data/mariadb
       o: bind
 
 networks:

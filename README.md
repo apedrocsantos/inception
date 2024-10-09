@@ -1,17 +1,30 @@
+# RUN INSTRUCTIONS
+
+Important - don't run as su.
+
+first time - `sudo make`
+stop containers - `sudo make stop`
+stop and delete containers - `sudo make down`
+restart containers (re-create if necessary) - `sudo make up`
+delete containers and volumes - `sudo make clean`
+full clean (also removes /data/mariadb and /data/wordpress) - `sudo make fclean`
+
 # DOCKER
+
+## [Install Docker Desktop](https://docs.docker.com/desktop/install/linux/ubuntu/)
 
 ## Basic commands (from https://docker-curriculum.com)
 
-docker build -t NAME . - cria imagem com nome NAME usando o Dockerfile do diretório atual
+docker build -t [NAME] . - cria imagem com nome NAME usando o Dockerfile do diretório atual
 docker images - listar imagens
-docker run NAME - cria contentor a partir da imagem
+docker run [NAME] - cria contentor a partir da imagem
 docker ps - listar contentores
 docker container prune - delete all containers that have a status of exited
-docker run omeusite --rm - apaga automaticamente depois de correr
+docker run [omeusite] --rm - apaga imagem automaticamente depois de correr
 
-docker run -d -p 8080:80 --name omeusite IMAGE - cria imagem com terminal detached, com forward da porta 80 para a 8080 e com o nome omeusite
-docker port omeusite - lista as portas da imagem omeusite
-docker stop omeusite - pára a execução da imagem
+docker run -d -p 8080:80 --name [omeusite] IMAGE - cria imagem com terminal detached, com forward da porta 80 para a 8080 e com o nome [omeusite]
+docker port [omeusite] - lista as portas da imagem [omeusite]
+docker stop [omeusite] - pára a execução da imagem
 
 exec running container - `docker exec -it [container-id] /bin/sh`
 
@@ -36,14 +49,6 @@ docker compose down - remove containers.
 3.  Install nginx and openssl (to create the tls certificate)
 4.  Create key and certificate
 5.  Run nginx
-
-
-Wordpress website files will be stored in volume /home/$USER/data/wordpress
-
-**location /**: In this location block, a try_files directive is used to check for files that match individual URI requests. Instead of returning a 404 Not Found status as a default, however, you’ll pass control to WordPress’s index.php file with the request arguments.
-
-**location ~ \.php$**: This location block will handle PHP processing and proxy these requests to your wordpress container. Because your WordPress Docker image will be based on the php:fpm image, you will also include configuration options that are specific to the FastCGI protocol in this block. Nginx requires an independent PHP processor for PHP requests. In this case, these requests will be handled by the php-fpm processor that’s included with the php:fpm image. Additionally, this location block includes FastCGI-specific directives, variables, and options that will proxy requests to the WordPress application running in your wordpress container, set the preferred index for the parsed request URI, and parse URI requests.
-
 
 
 ### SSL TLS
@@ -115,3 +120,8 @@ SELECT * FROM [table];
 
 [install](https://wiki.alpinelinux.org/wiki/WordPress)
 
+Wordpress website files will be stored in volume /home/$USER/data/wordpress
+
+**location /**: In this location block, a try_files directive is used to check for files that match individual URI requests. Instead of returning a 404 Not Found status as a default, however, you’ll pass control to WordPress’s index.php file with the request arguments.
+
+**location ~ \.php$**: This location block will handle PHP processing and proxy these requests to your wordpress container. Because your WordPress Docker image will be based on the php:fpm image, you will also include configuration options that are specific to the FastCGI protocol in this block. Nginx requires an independent PHP processor for PHP requests. In this case, these requests will be handled by the php-fpm processor that’s included with the php:fpm image. Additionally, this location block includes FastCGI-specific directives, variables, and options that will proxy requests to the WordPress application running in your wordpress container, set the preferred index for the parsed request URI, and parse URI requests.
