@@ -3,10 +3,15 @@
 Important - don't run as su.
 
 first time - `sudo make`
+
 stop containers - `sudo make stop`
+
 stop and delete containers - `sudo make down`
+
 restart containers (re-create if necessary) - `sudo make up`
+
 delete containers and volumes - `sudo make clean`
+
 full clean (also removes /data/mariadb and /data/wordpress) - `sudo make fclean`
 
 # DOCKER
