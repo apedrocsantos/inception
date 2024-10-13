@@ -1,53 +1,100 @@
 # RUN INSTRUCTIONS
 
+For MacOS, replace `/home` with `/Users`.
+
 Important - don't run as su.
 
-first time - `sudo make`
+1.  Replace the .env USERNAME variable with your username.
+
+2.  Create `/secrets´folder with the files: db_password.txt, db_root_password.txt and wp_admin_password.txt.
+
+3.  first time - `sudo make` then go to `https://<your username>.42.fr`
 
 stop containers - `sudo make stop`
 
-stop and delete containers - `sudo make down`
+delete containers (also stops) - `sudo make down`
 
-restart containers (re-create if necessary) - `sudo make up`
+restart containers (re-creates if necessary) - `sudo make up`
 
 delete containers and volumes - `sudo make clean`
 
-full clean (also removes /data/mariadb and /data/wordpress) - `sudo make fclean`
+full clean (also removes /data/) - `sudo make fclean`
 
 # DOCKER
 
 ## [Install Docker Desktop](https://docs.docker.com/desktop/install/linux/ubuntu/)
 
-## Basic commands (from https://docker-curriculum.com)
+### Basic commands (from https://docker-curriculum.com)
 
-docker build -t [NAME] . - cria imagem com nome NAME usando o Dockerfile do diretório atual
-docker images - listar imagens
-docker run [NAME] - cria contentor a partir da imagem
-docker ps - listar contentores
+docker build -t [NAME] . - create image with name NAME using the Dockerfile in the current directory
+
+docker images - list images
+
+docker run [NAME] - create container from image
+
+docker ps - list running containers
+
+docker ps -a - list all containers
+
 docker container prune - delete all containers that have a status of exited
-docker run [omeusite] --rm - apaga imagem automaticamente depois de correr
 
-docker run -d -p 8080:80 --name [omeusite] IMAGE - cria imagem com terminal detached, com forward da porta 80 para a 8080 e com o nome [omeusite]
-docker port [omeusite] - lista as portas da imagem [omeusite]
-docker stop [omeusite] - pára a execução da imagem
+docker run [container] --rm - automatically deletes container after stopping
 
-exec running container - `docker exec -it [container-id] /bin/sh`
+docker run -d -p 8080:80 --name [container] IMAGE - creates container with terminal detached, forwarding port 80 to port 8080 on the  host, and with the name [container]
 
-force restart docker - `sudo systemctl restart docker.socket`
+docker port [container] - list [container] ports
 
-docker compose up - start application(s).
+docker stop [container] - stops [container]
 
-docker compose stop - stop containers.
+execute running container - `docker exec -it [container-id] /bin/sh`
 
-docker compose down - remove containers.
+force restart docker - `sudo systemctl restart docker.socket docker.service`
+
+docker compose docker-compose.yml up - start container(s).
+
+docker compose docker-compose.yml stop - stop containers.
+
+docker compose docker-compose.yml down - stop and remove containers.
 
 [Volumes](https://docs.docker.com/storage/volumes/) vs [Bind mounts](https://docs.docker.com/storage/bind-mounts/)
 
 [Volumes in Docker Compose](https://docs.docker.com/compose/compose-file/07-volumes/)
 
-## NGINX
+## Dockerfile
 
-### Dockerfile
+## Docker-compose
+
+Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file.
+
+### The Compose Application Model
+
+1.  Computing components of an application are defined as **services**. A service is an abstract concept implemented on platforms by running the same container image, and configuration, one or more times.
+
+2.  Services communicate with each other through **networks**. In the Compose Specification, a network is a platform capability abstraction to establish an IP route between containers within services connected together.
+
+3.  Services store and share persistent data into **volumes**. The Specification describes such a persistent data as a high-level filesystem mount with global options.
+
+4.  A **secret** is a specific flavor of configuration data for sensitive data that should not be exposed without security considerations. Secrets are made available to services as files mounted into their containers, but the platform-specific resources to provide sensitive data are specific enough to deserve a distinct concept and definition within the Compose specification.
+
+[Services top-level elements] (https://docs.docker.com/reference/compose-file/services/)
+
+### Volumes
+
+Docker external named volumes can be used across the Docker installation.
+
+`docker volume ls` - list volumes
+
+`docker volume inspect <volume_name>` - inspect specific volume
+
+### Secrets
+
+The secrets attribute grants access to sensitive data defined by the secrets top-level element on a per-service basis. Services can be granted access to multiple secrets.
+
+
+
+# NGINX
+
+## Dockerfile
 
 1.  Install debian:oldstable
 2.  Update and upgrade
@@ -56,7 +103,7 @@ docker compose down - remove containers.
 5.  Run nginx
 
 
-### SSL TLS
+## SSL TLS
 
 [intro](https://www.youtube.com/watch?v=EnY6fSng3Ew)
 
@@ -66,7 +113,7 @@ docker compose down - remove containers.
 
 **Self-signed certificate** - A self-signed certificate is a certificate that is signed with its own private key. Self-signed certificates can be used to encrypt data just as well as CA-signed certificates, but your users will be displayed a warning that says that the certificate is not trusted by their computer or browser. Therefore, self-signed certificates should only be used if you do not need to prove your service’s identity to its users (e.g. non-production or non-public servers).
 
-#### Create certificate
+### Create certificate
 
 **openssl** - cryptography toolkit implementing the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) network protocols and related cryptography standards required by them.
 
@@ -76,19 +123,23 @@ The **-x509 option** tells req to create a self-signed certificate instead of ge
 
 [testssh.sh](https://github.com/drwetter/testssl.sh)
 
-#### Configuring nginx to use SSL
+### Configuring nginx to use SSL
 
 1.  Change nginx.conf to listen on port 443 instead of 80, and using ssl.
 2.  Define ssl_certificate and ssl_certificate_key.
 3.  
 
-## MARIADB
+# MARIADB
+
+## Dockerfile
+
+???????????????????
 
 [install](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04)
 
 Two users: root and mysql
 
-### Basic mysql commands
+## Basic mysql commands
 
 
 mariadb -u [user] -p [password]
@@ -121,9 +172,11 @@ DESCRIBE [table];
 <!-- Show all data from a table -->
 SELECT * FROM [table];
 
-## WORDPRESS
+# WORDPRESS
 
-[install](https://wiki.alpinelinux.org/wiki/WordPress)
+## Dockerfile
+
+???????????????????
 
 Wordpress website files will be stored in volume /home/$USER/data/wordpress
 

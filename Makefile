@@ -17,13 +17,14 @@ clean:
 	docker compose -f srcs/docker-compose.yml down -v 
 
 fclean: clean
-	docker image rm mariadb nginx wordpress
+	docker image rm inception-mariadb
 	docker system prune -af --volumes
-	rm -rf /home/$(SUDO_USER)/data/mariadb /home/$(SUDO_USER)/data/wordpress
+	# docker volume rm inception_db inception_wp
+	rm -rf /home/$(SUDO_USER)/data
 
 re: fclean all
 
-# reset:
-# 	docker stop $(shell docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker network ls -q) 2>/dev/null
+reset:
+	docker stop $(shell docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker network ls -q) 2>/dev/null
 
 .PHONY: all start stop down restart clean fclean re reset
