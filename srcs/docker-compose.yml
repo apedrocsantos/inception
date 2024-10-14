@@ -1,31 +1,11 @@
 name: inception
 
 services:
-  nginx:
-    depends_on:
-      - wordpress
-    container_name: nginx
-    build:
-      context: requirements/nginx
-      args:
-        USERNAME: ${USERNAME}
-    ports:
-      - "443:443"
-    volumes:
-      - wp:/var/www/html
-    restart: on-failure
-    environment:
-      - USERNAME=${USERNAME}
-    env_file:
-      - .env
-    networks:
-      - inception
-
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
     volumes:
-      - /home/$USERNAME/data/mariadb:/var/lib/mysql
+      - db:/var/lib/mysql
     restart: on-failure
     env_file:
       - .env
@@ -54,6 +34,26 @@ services:
        - db_password
        - wp_admin_password
     restart: on-failure
+    networks:
+      - inception
+
+  nginx:
+    depends_on:
+      - wordpress
+    container_name: nginx
+    build:
+      context: requirements/nginx
+      args:
+        USERNAME: ${USERNAME}
+    ports:
+      - "443:443"
+    volumes:
+      - wp:/var/www/html
+    restart: on-failure
+    environment:
+      - USERNAME=${USERNAME}
+    env_file:
+      - .env
     networks:
       - inception
 

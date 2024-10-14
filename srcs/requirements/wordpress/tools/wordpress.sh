@@ -1,22 +1,31 @@
 #! /bin/sh
 
-if [ -f "/var/www/html/wordpress/wp-config.php" ]
+until mariadb-admin ping -h mariadb --silent; do
+  echo "Waiting for MariaDB to be healthy..."
+  sleep 2
+done
 
-then
+if [ -f "/var/www/html/wp-config.php" ]; then
+
   echo "Wordpress already configured."
 
 else
 
-mkdir -p /var/www/html
-cd /var/www/html
+  echo "wordpress not configured"
+  mkdir -p /var/www/html
+  cd /var/www/html
 
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
+  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  chmod +x wp-cli.phar
 
-./wp-cli.phar core download --allow-root
-./wp-cli.phar config create --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$(cat $MYSQL_PASSWORD_FILE) --dbhost=mariadb --allow-root
-./wp-cli.phar core install --url=https://$USERNAME.42.fr --title=inception --admin_user=$WORDPRESS_ADMIN --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=admin@admin.com --allow-root
+  echo "wp downloading core"
+  ./wp-cli.phar core download --allow-root
+  echo "wp creating config file"
+  ./wp-cli.phar config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$(cat $MYSQL_PASSWORD_FILE) --dbhost=mariadb --allow-root
+  echo "wp installing core"
+  ./wp-cli.phar core install --url=https://$USERNAME.42.fr --title=inception --admin_user=$WORDPRESS_ADMIN --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=admin@admin.com --allow-root
 
 fi
 
+echo "starting php-fpm"
 exec "$@"
