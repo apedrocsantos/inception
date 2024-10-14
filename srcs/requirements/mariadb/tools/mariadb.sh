@@ -2,7 +2,7 @@
 
 
 echo "installing mysql"
-mysql_install_db
+mariadb-install-db
 
 if [ ! -f /etc/mysql/init.sql ]; then
     USER_PASS=$(cat /run/secrets/db_password);
@@ -13,7 +13,7 @@ if [ ! -f /etc/mysql/init.sql ]; then
     unset USER_PASS
 fi
 service mariadb start
-mysql_secure_installation <<EOF
+mariadb-secure-installation <<EOF
 
 n
 n
