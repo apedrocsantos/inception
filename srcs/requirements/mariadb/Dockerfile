@@ -15,3 +15,4 @@ RUN chmod +x /usr/local/bin/mariadb.sh
 ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
 
 CMD ["mariadbd"]
+# CMD ["tail", "-f"]

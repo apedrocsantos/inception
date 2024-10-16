@@ -12,4 +12,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private
 
 COPY conf/default /etc/nginx/sites-available/
 
+RUN echo "starting nginx"
+
 CMD [ "nginx", "-g", "daemon off;" ]
