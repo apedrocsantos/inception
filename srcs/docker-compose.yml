@@ -41,11 +41,15 @@ services:
     container_name: nginx
     build:
       context: requirements/nginx
+      args:
+        USERNAME: ${USERNAME}
     ports:
       - "443:443"
     volumes:
       - wp:/var/www/html
     restart: on-failure
+    environment:
+      - USERNAME=${USERNAME}
     env_file:
       - .env
     networks:

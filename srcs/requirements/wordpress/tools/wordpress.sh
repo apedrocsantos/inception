@@ -23,7 +23,7 @@ else
   echo "wp creating config file"
   ./wp-cli.phar config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$(cat $MYSQL_PASSWORD_FILE) --dbhost=mariadb --allow-root
   echo "wp installing core"
-  ./wp-cli.phar core install --url=https://$HOST --title=inception --admin_user=$WORDPRESS_ADMIN --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=admin@admin.com --allow-root
+  ./wp-cli.phar core install --url=https://$USERNAME.42.fr --title=inception --admin_user=$WORDPRESS_ADMIN --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=admin@admin.com --allow-root
 
 fi
 
