@@ -17,7 +17,7 @@ clean:
 	docker compose -f srcs/docker-compose.yml down -v 
 
 fclean: clean
-	docker image rm inception-mariadb
+	docker image rm inception-mariadb inception-wordpress inception-nginx
 	rm -rf /home/$(SUDO_USER)/data
 
 re: fclean all

@@ -14,5 +14,4 @@ ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
 
 RUN mkdir -p /run/php
 
-# -F -> Force to stay in foreground.
 CMD [ "php-fpm7.4", "-F" ]

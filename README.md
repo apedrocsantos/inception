@@ -22,6 +22,26 @@ full clean (also removes /data/) - `sudo make fclean`
 
 ## [Install Docker Desktop](https://docs.docker.com/desktop/install/linux/ubuntu/)
 
+## Dockerfile
+
+Docker builds images by reading the instructions from a Dockerfile. A Dockerfile is a text file containing instructions for building your source code. The Dockerfile instruction syntax is defined by the specification reference in the Dockerfile reference.
+
+FROM <image> - Defines a base for your image.
+
+RUN <command> - Executes any commands in a new **layer** on top of the current image and commits the result. RUN also has a shell for running commands.
+
+WORKDIR <directory> - Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile.
+
+COPY <src> <dest> - Copies new files or directories from <src> and adds them to the filesystem of the container at the path <dest>.
+
+CMD <command> - Lets you define the default program that is run once you start the container based on this image. Each Dockerfile only has one CMD, and only the last CMD instance is respected when multiple exist.
+
+### Docker images
+
+Docker images consist of layers. Each layer is the result of a build instruction in the Dockerfile. Layers are stacked sequentially, and each one is a delta representing the changes applied to the previous layer.
+
+
+
 ### Basic commands (from https://docker-curriculum.com)
 
 docker build -t [NAME] . - create image with name NAME using the Dockerfile in the current directory
@@ -55,10 +75,6 @@ docker compose docker-compose.yml stop - stop containers.
 docker compose docker-compose.yml down - stop and remove containers.
 
 `docker compose config` - show compose configuration
-
-## Dockerfile
-
-???
 
 ## Docker-compose
 
@@ -133,7 +149,7 @@ You can create custom, user-defined networks, and connect multiple containers to
 
 ### [Bridge network driver](https://docs.docker.com/engine/network/drivers/bridge/)
 
- terms of Docker, a bridge network uses a software bridge which lets containers connected to the same bridge network communicate, while providing isolation from containers that aren't connected to that bridge network. The Docker bridge driver automatically installs rules in the host machine so that containers on different bridge networks can't communicate directly with each other.
+In terms of Docker, a bridge network uses a software bridge which lets containers connected to the same bridge network communicate, while providing isolation from containers that aren't connected to that bridge network. The Docker bridge driver automatically installs rules in the host machine so that containers on different bridge networks can't communicate directly with each other.
 
 User-defined bridge networks are superior to the default bridge network.
 
@@ -201,7 +217,6 @@ The **-x509 option** tells req to create a self-signed certificate instead of ge
 
 1.  Change nginx.conf to listen on port 443 instead of 80, and using ssl.
 2.  Define ssl_certificate and ssl_certificate_key.
-3.  
 
 ### FastCGI
 
@@ -223,7 +238,7 @@ The most basic nginx configuration to work with a FastCGI server includes using 
 
 [mariadb-secure-installation](mariadb-secure-installation)
 
-50-server.cnf defines init_file = /etc/mysql/init.sql and root as the user, and comments out bind-address = 127.0.0.1, thus allowing remote connections.
+50-server.cnf defines **init_file** = /etc/mysql/init.sql and **root** as the user, and comments out **bind-address** = 127.0.0.1, thus allowing remote connections.
 
 ## Dockerfile
 
