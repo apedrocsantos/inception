@@ -26,15 +26,15 @@ full clean (also removes /data/) - `sudo make fclean`
 
 Docker builds images by reading the instructions from a Dockerfile. A Dockerfile is a text file containing instructions for building your source code. The Dockerfile instruction syntax is defined by the specification reference in the Dockerfile reference.
 
-FROM <image> - Defines a base for your image.
+`FROM <image>` - Defines a base for your image.
 
-RUN <command> - Executes any commands in a new **layer** on top of the current image and commits the result. RUN also has a shell for running commands.
+`RUN <command>` - Executes any commands in a new **layer** on top of the current image and commits the result. RUN also has a shell for running commands.
 
-WORKDIR <directory> - Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile.
+`WORKDIR <directory>` - Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile.
 
-COPY <src> <dest> - Copies new files or directories from <src> and adds them to the filesystem of the container at the path <dest>.
+`COPY <src> <dest>` - Copies new files or directories from <src> and adds them to the filesystem of the container at the path <dest>.
 
-CMD <command> - Lets you define the default program that is run once you start the container based on this image. Each Dockerfile only has one CMD, and only the last CMD instance is respected when multiple exist.
+`CMD <command>` - Lets you define the default program that is run once you start the container based on this image. Each Dockerfile only has one CMD, and only the last CMD instance is respected when multiple exist.
 
 ### Docker images
 
@@ -44,35 +44,35 @@ Docker images consist of layers. Each layer is the result of a build instruction
 
 ### Basic commands (from https://docker-curriculum.com)
 
-docker build -t [NAME] . - create image with name NAME using the Dockerfile in the current directory
+`docker build -t [NAME] .` - create image with name NAME using the Dockerfile in the current directory
 
-docker images - list images
+`docker images` - list images
 
-docker run [NAME] - create container from image
+`docker run [NAME]` - create container from image
 
-docker ps - list running containers
+`docker ps` - list running containers
 
-docker ps -a - list all containers
+`docker ps -a` - list all containers
 
-docker container prune - delete all containers that have a status of exited
+`docker container prune` - delete all containers that have a status of exited
 
-docker run [container] --rm - automatically deletes container after stopping
+`docker run [container] --rm` - automatically deletes container after stopping
 
-docker run -d -p 8080:80 --name [container] IMAGE - creates container with terminal detached, forwarding port 80 of the container to port 8080 on the  host, and with the name [container]
+`docker run -d -p 8080:80 --name [container] IMAGE` - creates container with terminal detached, forwarding port 80 of the container to port 8080 on the  host, and with the name [container]
 
-docker port [container] - list [container] ports
+`docker port [container]` - list [container] ports
 
-docker stop [container] - stops [container]
+`docker stop [container]` - stops [container]
 
 execute running container - `docker exec -it [container-id] /bin/sh`
 
 force restart docker - `sudo systemctl restart docker.socket docker.service`
 
-docker compose docker-compose.yml up - start container(s).
+`docker compose docker-compose.yml up` - start container(s).
 
-docker compose docker-compose.yml stop - stop containers.
+`docker compose docker-compose.yml stop` - stop containers.
 
-docker compose docker-compose.yml down - stop and remove containers.
+`docker compose docker-compose.yml down` - stop and remove containers.
 
 `docker compose config` - show compose configuration
 
